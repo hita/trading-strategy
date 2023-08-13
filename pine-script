@@ -1,0 +1,42 @@
+//@version=5
+indicator("Enhanced Moving Averages Crossover", shorttitle="EMA_Crossover_Enhanced", overlay=true)
+
+// Input parameters
+src = close
+lengthEMA200 = input.int(200, title="Length of EMA 200", minval=1)
+lengthEMA50 = input.int(50, title="Length of EMA 50", minval=1)
+lengthADX = input.int(14, title="Length of ADX", minval=1)
+adxThreshold = input.int(25, title="ADX Threshold")
+lengthOBV = input.int(14, title="Length of OBV", minval=1)
+obvThreshold = input.int(0, title="OBV Threshold")
+
+
+// Calculation of Exponential Moving Averages (EMA)
+ema200 = ta.ema(src, lengthEMA200)
+ema50 = ta.ema(src, lengthEMA50)
+
+// Calculation of DMI and ADX indicators
+diplus = ta.di(lengthADX, true)
+diminus = ta.di(lengthADX, false)
+adx = ta.adx(lengthADX)
+
+// Calculation of OBV indicator
+obv = ta.obv(close, volume)
+obvEMA = ta.ema(obv, lengthOBV)
+obvSignal = obv - obvEMA
+
+// Plot moving averages on the chart
+plot(ema200, color=color.red, linewidth=2, title="EMA 200")
+plot(ema50, color=color.blue, linewidth=2, title="EMA 50")
+
+// Moving averages crossover condition
+crossAbove = tcrossover(ema50, ema200)
+crossBelow = crossunder(ema50, ema200)
+
+// Filter crossover signals using ADX and OBV
+entryLong = crossAbove and adx > adxThreshold and obvSignal > obvThreshold
+entryShort = crossBelow and adx > adxThreshold and obvSignal < -obvThreshold
+
+// Entry and exit signals
+bgcolor(entryLong ? color.new(color.green, 90) : na, transp=0)
+bgcolor(entryShort ? color.new(color.red, 90) : na, transp=0)
