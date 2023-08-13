@@ -13,7 +13,7 @@ However, the moving average crossover strategy can be prone to false signals, es
 To use the Enhanced Moving Averages Crossover Strategy with VWAP, follow these steps:
 
 1. Open the Pine Editor in TradingView and create a new script.
-2. Copy and paste the code from this repository into the Pine Editor.
+2. Copy and paste [the code](pine-script) from this repository into the Pine Editor.
 3. Click the "Add to Chart" button to add the strategy to your chart.
 4. Use the input parameters to adjust the lengths of the Exponential Moving Averages (EMAs) and the VWAP threshold to suit your trading style.
 5. Backtest the strategy using the Strategy Tester to see how it performs on historical data.
